@@ -1,5 +1,6 @@
 
 
+import { Link } from "react-router-dom";
 import MarketNews from "./components/MarketNews";
 import { lazy, Suspense, useState } from "react";
 import { motion } from "motion/react";
@@ -120,12 +121,13 @@ function Navbar() {
         </nav>
 
         <div className="nav-actions">
-          <a className="nav-signin" href="#platform">
-            Explore platform
-          </a>
-          <a className="btn btn-gold nav-start" href="#markets">
-            Explore markets <ArrowUpRight size={16} />
-          </a>
+          <Link className="nav-signin" to="/login">
+            Login
+          </Link>
+
+          <Link className="btn btn-gold nav-start" to="/register">
+            Create Account <ArrowUpRight size={16} />
+          </Link>
         </div>
 
         <button
@@ -133,14 +135,19 @@ function Navbar() {
           type="button"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
+          aria-controls="platinum-mobile-nav"
+          onClick={() => setMenuOpen((open) => !open)}
         >
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {menuOpen && (
-        <nav className="mobile-nav" aria-label="Mobile navigation">
+        <nav
+          id="platinum-mobile-nav"
+          className="mobile-nav"
+          aria-label="Mobile navigation"
+        >
           {links.map((link) => (
             <a
               key={link.label}
@@ -150,14 +157,26 @@ function Navbar() {
               {link.label}
             </a>
           ))}
-          <a href="#markets" onClick={() => setMenuOpen(false)}>
-            Explore markets
-          </a>
+
+          <Link
+            to="/login"
+            onClick={() => setMenuOpen(false)}
+          >
+            Login
+          </Link>
+
+          <Link
+            to="/register"
+            onClick={() => setMenuOpen(false)}
+          >
+            Create Account
+          </Link>
         </nav>
       )}
     </header>
   );
 }
+
 
 function MarketTicker() {
   const items = [...markets, ...markets];
